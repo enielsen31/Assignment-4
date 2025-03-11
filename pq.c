@@ -19,10 +19,6 @@
  */
 struct pq{
         struct dynarray* dynarray;
-//  void **elements;  // dynamic array of elements
-//    int *priorities;  // dynamic array of priorities corresponding to elements
-//    int size;         // current number of elements in the priority queue
-//    int capacity;     // maximum capacity of the priority queue
 };
 
 struct pq_elements{
@@ -43,25 +39,7 @@ void swap_elements(struct pq* pq, int index1, int index2) {
 
         dynarray_set(pq->dynarray, index1, second_index);
         dynarray_set(pq->dynarray, index2, first_index);
-
-//      void *temp_value = pq->elements[index1];
-//    pq->elements[index1] = pq->elements[index2];
-//    pq->elements[index2] = temp_value;
-
-//    int temp_priority = pq->priorities[index1];
-//    pq->priorities[index1] = pq->priorities[index2];
-//    pq->priorities[index2] = temp_priority;
 }
-
-
-
-// Resize the heap array (from dynarray functions)
-//void resize_heap(struct pq* pq, int new_capacity) {
-    // Resize both elements and priorities arrays
-//    pq->elements = dynarray_resize(pq->elements, new_capacity);
-//    pq->priorities = dynarray_resize(pq->priorities, new_capacity);
-//    pq->capacity = new_capacity;
-//}
 
 struct pq* pq_create() {
         /*
@@ -96,8 +74,7 @@ void pq_free(struct pq* pq) {
 
                 free(pq);
         }
-
-//      return;
+        return; 
 }
 
 
@@ -120,8 +97,6 @@ int pq_isempty(struct pq* pq) {
                 return 1;
         }
         return 0;
-//return pq == NULL || pq->size == 0;
-
 }
 
 
@@ -157,15 +132,15 @@ void pq_insert(struct pq* pq, void* value, int priority) {
     struct pq_elements* parent = dynarray_get(pq->dynarray, parent_index);
     struct pq_elements* child = dynarray_get(pq->dynarray, first_index);
         //swaps when the parent is greater
-        if(parent->priority > child->priority){
+     if(parent->priority > child->priority){
         swap_elements(pq, first_index, parent_index);
         first_index = parent_index;
         } else {
         break;
         }
-        }
-//      return;
-        }
+    }
+  return; 
+}
 
 
 
@@ -244,14 +219,14 @@ void* pq_remove_first(struct pq* pq) {
     // Remove the last element (which is now the root)
     dynarray_remove(pq->dynarray, size - 1);
 
-    // Percolate down to restore heap property
+    // Percolate down in order to restore heap property
     int index = 0;
     while (index < dynarray_size(pq->dynarray)) {
         int left_index = 2 * index + 1;  // Left child index
         int right_index = 2 * index + 2; // Right child index
         int smallest = index;
 
-        // Check if left child exists and is smaller than current
+        // Makes sure if left child exists and is smaller than current
         if (left_index < dynarray_size(pq->dynarray)) {
             struct pq_elements* left_child = dynarray_get(pq->dynarray, left_index);
             struct pq_elements* current_parent = dynarray_get(pq->dynarray, index);
@@ -260,7 +235,7 @@ void* pq_remove_first(struct pq* pq) {
             }
         }
 
-        // Check if right child exists and is smaller than current
+        // Makes sure if right child exists and is smaller than current
         if (right_index < dynarray_size(pq->dynarray)) {
             struct pq_elements* right_child = dynarray_get(pq->dynarray, right_index);
             struct pq_elements* current_parent = dynarray_get(pq->dynarray, index);
